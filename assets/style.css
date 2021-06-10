@@ -1,1 +1,24 @@
+body { 
+    padding-top: 180px;
+    background-color: #9eb8a5;
+    padding-bottom: 10px
+}
+
+
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #1dab43;
+}
+
+.imgRelease {
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     border: 3px solid white;
+}
+
+.imgRelease:hover{
+    border: 3px solid #c3ff91;
+}
+
 

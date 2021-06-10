@@ -1,4 +1,4 @@
-Copyright (c) 2021 Simone Rover
+Copyright (c) 2021 Simone Rover, Daniel Bartolomei
 
 This project was developed by Bartolomei Daniel and Rover Simone for educational purposes. Any commercial use is strictly forbidden.
 

@@ -198,7 +198,7 @@ def artist_info_content(artist1_name, artist2_name):
     info2_section = html.Center(children=[
         html.Img(style={'border': '4px solid #b8392e'}, src=str(artist2_info[4]), width=artist2_info[5], height=artist2_info[6]),
         html.Br(),
-        artist1_name,
+        artist2_name,
         html.Br(),
         'Popularity: {0}'.format(artist2_info[2]),
         html.Br(),
@@ -629,34 +629,17 @@ def general_graphs(artist1_name, artist2_name):
     art2_albums.drop_duplicates(subset=['id'])
 
     # BUILDING GRAPH FOR ART1 TRENDS
-    if len(dates) >= 2:
-        first_date = dates[0]
-        last_date = dates[len(dates) - 1]
-        if int(last_date.split('-')[0]) < 2004:
-            last_date = '{0}-{1}'.format('2004', last_date.split('-')[1])
-        timeframe_string = '{0}-01 {1}-01'.format(last_date, first_date)
-        pytrend = Tr(hl='it-IT', tz=360)
-        pytrend.build_payload(kw_list=[artist1_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
-        artist_trend_df = pytrend.interest_over_time()
-        trends_graph.add_trace(go.Scatter(
-            x=artist_trend_df.index,
-            y=artist_trend_df[artist1_info[1]],
-            mode='lines',
-            name='Google trends',
-            line=dict(color='#2450a3')
-        ))
-    else:
-        timeframe_string = 'all'
-        pytrend = Tr(hl='it-IT', tz=360)
-        pytrend.build_payload(kw_list=[artist1_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
-        artist_trend_df = pytrend.interest_over_time()
-        trends_graph.add_trace(go.Scatter(
-            x=artist_trend_df.index,
-            y=artist_trend_df[artist1_info[1]],
-            mode='lines',
-            name='Google trends',
-            line=dict(color='#2450a3')
-        ))
+    timeframe_string = 'all'
+    pytrend = Tr(hl='it-IT', tz=360)
+    pytrend.build_payload(kw_list=[artist1_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
+    artist_trend_df = pytrend.interest_over_time()
+    trends_graph.add_trace(go.Scatter(
+        x=artist_trend_df.index,
+        y=artist_trend_df[artist1_info[1]],
+        mode='lines',
+        name='Google trends',
+        line=dict(color='#2450a3')
+    ))
 
 
 
@@ -695,37 +678,20 @@ def general_graphs(artist1_name, artist2_name):
     art2_albums['release_date'] = dates
 
     # BUILDING GRAPH FOR ART2 TRENDS
-    if len(dates) >= 2:
-        first_date = dates[0]
-        last_date = dates[len(dates) - 1]
-        if int(last_date.split('-')[0]) < 2004:
-            last_date = '{0}-{1}'.format('2004', last_date.split('-')[1])
-        timeframe_string = '{0}-01 {1}-01'.format(last_date, first_date)
-        pytrend = Tr(hl='it-IT', tz=360)
-        pytrend.build_payload(kw_list=[artist2_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
-        artist_trend_df = pytrend.interest_over_time()
-        trends_graph.add_trace(go.Scatter(
-            x=artist_trend_df.index,
-            y=artist_trend_df[artist2_info[1]],
-            mode='lines',
-            name='Google trends',
-            line=dict(color='#b8392e')
-        ))
-    else:
-        timeframe_string = 'all'
-        pytrend = Tr(hl='it-IT', tz=360)
-        pytrend.build_payload(kw_list=[artist2_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
-        artist_trend_df = pytrend.interest_over_time()
-        trends_graph.add_trace(go.Scatter(
-            x=artist_trend_df.index,
-            y=artist_trend_df[artist2_info[1]],
-            mode='lines',
-            name='Google trends',
-            line=dict(color='#b8392e')
-        ))
+    timeframe_string = 'all'
+    pytrend = Tr(hl='it-IT', tz=360)
+    pytrend.build_payload(kw_list=[artist2_info[1]], cat=0, timeframe=timeframe_string, geo='', gprop='')
+    artist_trend_df = pytrend.interest_over_time()
+    trends_graph.add_trace(go.Scatter(
+        x=artist_trend_df.index,
+        y=artist_trend_df[artist2_info[1]],
+        mode='lines',
+        name='Google trends',
+        line=dict(color='#b8392e')
+    ))
 
     trends_graph.update_layout(
-        showlegend=True,
+        showlegend=False,
         legend_title_font_color="#ffffff",
         legend_title_font_size=20,
         legend_font_color="#ffffff",
@@ -734,7 +700,7 @@ def general_graphs(artist1_name, artist2_name):
         legend_itemwidth=35,
         paper_bgcolor='#343a40',
         font_color='#ffffff',
-        title_text='Popularity over time',
+        title_text='Google Trends',
         title_font_color='#ffffff'
     )
 
@@ -757,12 +723,8 @@ def general_graphs(artist1_name, artist2_name):
         font_color='#ffffff',
         showlegend=False,
         paper_bgcolor='#343a40',
+        yaxis_range=[0,100]
     )
-
-
-
-
-    pop_graph_container = dcc.Graph(figure=pop_graph)
 
     return pop_graph, trends_graph
     # artist*_info CONTAINS INFO ABOUT THE ARTIST IN THE FOLLOWING FORMAT List: [0artist_id, 1artist_name,
